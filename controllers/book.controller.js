@@ -2,13 +2,14 @@ import Book from "../models/Book.js";
 import Review from "../models/Review.js";
 
 export const createBook = async (req, res) => {
-  const { title, author, published_date } = req.body;
+  console.log("req.body is", req.body);
+  const { title, author, published_date, price } = req.body;
   try {
-    if (!title || !author || !published_date) {
+    if (!title || !author || !published_date || !price) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const newBook = await Book.create({ title, author, published_date });
+    const newBook = await Book.create({ title, author, published_date, price });
     res.status(201).json(newBook);
   } catch (error) {
     console.error("The error is ", error);
@@ -24,7 +25,7 @@ export const getAllBooks = async (req, res) => {
     const booksWithAvgRating = await Promise.all(
       books.map(async (book) => {
         const reviews = await Review.find({ book: book._id });
-        const avgRating =
+        const avgRating = // calculating the average rating of the book
           reviews.length > 0
             ? (
                 reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length

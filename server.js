@@ -7,11 +7,13 @@ import reviewRouter from "./routes/review.route.js";
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Health check successful");
 });
 
+app.use("/api/books", bookRouter);
 app.use("/api/books", bookRouter);
 app.use("/api/review", reviewRouter);
 

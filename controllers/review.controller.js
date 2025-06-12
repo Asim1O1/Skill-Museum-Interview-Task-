@@ -12,6 +12,7 @@ export const createReview = async (req, res) => {
     }
 
     if (rating < 1 || rating > 5) {
+      // book rating must be more than 1 less than or equal to 5
       return res
         .status(400)
         .json({ message: "Rating must be between 1 and 5" });
